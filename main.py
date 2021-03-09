@@ -1,23 +1,8 @@
 from src.models.ad_locations import AdLocations
-from src.models.ad_metadata import AdMetadata
-from src.models.ads import Ads
-from src.models.cities import Cities
-from src.models.counties import Counties
 from src.models.residences import Residences
-from src.models.zones import Zones
+from src.visualization.data_visualization import plot_surface_and_rental_price, plot_rooms_vs_price, \
+    plot_surface_vs_price_per_sq_meter
 
-def row2dict(row):
-    d = {}
-    for column in row.__table__.columns:
-        d[column.name] = str(getattr(row, column.name))
-
-    return d
-
-# or
-
-# row2dict = lambda r: {c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
-
-
-ads = Ads()
-smth = ads.test_query()
-print()
+plot_surface_and_rental_price()
+plot_surface_vs_price_per_sq_meter()
+plot_rooms_vs_price()

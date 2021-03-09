@@ -14,7 +14,7 @@ class Cities(BaseTable):
     latitude = Column(mysql.DECIMAL)
     longitude = Column(mysql.DECIMAL)
 
-    county = relationship('Counties')
+    # county = relationship('Counties')
 
     def test_query(self):
         query = self.db_session.query(Cities).limit(50)

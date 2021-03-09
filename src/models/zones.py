@@ -15,7 +15,7 @@ class Zones(BaseTable):
     longitude = Column(mysql.DECIMAL)
     created_at = Column(mysql.DATETIME)
 
-    city = relationship('Cities')
+    # city = relationship('Cities')
 
     def test_query(self):
         query = self.db_session.query(Zones).limit(50)

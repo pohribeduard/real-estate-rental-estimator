@@ -15,7 +15,7 @@ class AdLocations(BaseTable):
     longitude = Column(mysql.DECIMAL)
     created_at = Column(mysql.DATETIME)
 
-    zone = relationship('Zones')
+    # zone = relationship('Zones')
 
     def test_query(self):
         query = self.db_session.query(AdLocations).limit(500)

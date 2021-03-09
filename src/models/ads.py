@@ -19,19 +19,19 @@ class Ads(BaseTable):
     bathrooms = Column(mysql.SMALLINT)
     built_area = Column(mysql.DECIMAL)
     building_height = Column(mysql.DECIMAL)
-    building_type = Column(mysql.SMALLINT) # TODO: ce e asta?
+    building_type = Column(mysql.SMALLINT)
     building_year = Column(mysql.INTEGER)
     commission = Column(mysql.DECIMAL)
     comfort = Column(mysql.SMALLINT)
     condition = Column(mysql.VARCHAR)
     conditioning = Column(mysql.VARCHAR)
-    counters = Column(mysql.VARCHAR) # TODO: ce e asta?
+    counters = Column(mysql.VARCHAR)
     currency = Column(mysql.VARCHAR)
     foundation_material = Column(mysql.VARCHAR)
     floor = Column(mysql.SMALLINT)
     floors = Column(mysql.SMALLINT)
     front_door = Column(mysql.VARCHAR)
-    furnished = Column(mysql.SMALLINT)  # TODO: ce e asta? 1, 2, 3
+    furnished = Column(mysql.SMALLINT)
     garages = Column(mysql.SMALLINT)
     general_utilities = Column(mysql.VARCHAR)
     heating = Column(mysql.VARCHAR)
@@ -42,17 +42,17 @@ class Ads(BaseTable):
     layout = Column(mysql.SMALLINT)
     listed_date = Column(mysql.DATETIME)
     livable_area = Column(mysql.DECIMAL)
-    parking_spots = Column(mysql.SMALLINT)  # TODO: ce e asta ? 1, 2
+    parking_spots = Column(mysql.SMALLINT)
     price = Column(mysql.INTEGER)
     public_transportation = Column(mysql.TINYINT)
     rooms = Column(mysql.SMALLINT)
     original_id = Column(mysql.VARCHAR)
     services = Column(mysql.VARCHAR)
-    status = Column(mysql.SMALLINT)  # TODO: ce e asta? 0, 1,
+    status = Column(mysql.SMALLINT)
     street = Column(mysql.VARCHAR)
     street_lighting = Column(mysql.VARCHAR)
     title = Column(mysql.VARCHAR)
-    type = Column(mysql.SMALLINT)   # TODO: ce e asta? 1, 2
+    type = Column(mysql.SMALLINT)
     thermal_insulation = Column(mysql.VARCHAR)
     url = Column(mysql.VARCHAR)
     walls = Column(mysql.VARCHAR)
@@ -62,9 +62,9 @@ class Ads(BaseTable):
     updated_at = Column(mysql.DATETIME)
     created_at = Column(mysql.DATETIME)
 
-    location = relationship('AdLocations', foreign_keys=[location_id])
-    ad_metadata = relationship('AdMetadata', foreign_keys=[ad_metadata_id])
-    ad_residence = relationship('Residences', foreign_keys=[residence_id])
+    # location = relationship('AdLocations', foreign_keys=[location_id])
+    # ad_metadata = relationship('AdMetadata', foreign_keys=[ad_metadata_id])
+    # ad_residence = relationship('Residences', foreign_keys=[residence_id])
 
     def test_query(self):
         query = self.db_session.query(Ads).limit(50)
