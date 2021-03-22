@@ -5,31 +5,31 @@ import pandas as pd
 import math
 from src.models.residences import Residences
 
-list_features_to_drop = ['price', 'currency']
+list_features_to_drop = ['price', 'currency', 'price_interval']
 
 residence_table = Residences()
-residences = residence_table.get_residences(200000)
+residences = residence_table.get_residences(20000)
 residences = pd.DataFrame(residences)
 residences = residences.fillna(-1)
 residences = residences.sample(frac=1)
 
-target = np.array(residences['price'])
+target = np.array(residences['price_interval'])
 features = residences.drop(list_features_to_drop, axis=1)
 feature_list = list(features.columns)
 features = np.array(features)
 
 
 # Number of trees in random forest
-n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num = 19)]
+n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
 # Number of features to consider at every split
-max_features = ['auto', 'sqrt', 'log2', None]
+max_features = ['auto', 'sqrt']
 # Maximum number of levels in tree
-max_depth = [int(x) for x in np.linspace(10, 220, num = 22)]
+max_depth = [int(x) for x in np.linspace(10, 110, num = 11)]
 max_depth.append(None)
 # Minimum number of samples required to split a node
 min_samples_split = [2, 5, 10]
 # Minimum number of samples required at each leaf node
-min_samples_leaf = [1, 2, 4, 10]
+min_samples_leaf = [1, 2, 4]
 # Method of selecting samples for training each tree
 bootstrap = [True, False]
 # Create the random grid

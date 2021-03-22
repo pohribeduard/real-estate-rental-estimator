@@ -3,48 +3,57 @@ import math
 from src.models.residences import Residences
 import pandas as pd
 
-test_nr = 10
-residences_nr = 150
+from src.visualization.feature_importance import print_feature_importance
 
-list_features_to_drop = ['price', 'currency']
+residences_nr = 1200
+
+list_features_to_drop = ['price', 'currency', 'price_interval']
 
 residence_table = Residences()
 residences = residence_table.get_residences(residences_nr)
+# residences = residence_table.get_all_residences()
 residences = pd.DataFrame(residences)
-residences = residences.fillna(-1)
+residences = residences.fillna(-999)
 residences = residences.sample(frac=1)
 
-target = np.array(residences['price'])
+target = np.array(residences['price_interval'])
 features = residences.drop(list_features_to_drop, axis=1)
+features_columns = features.columns
 feature_list = list(features.columns)
 features = np.array(features)
 
 
-data_train = features[:math.floor(len(features) * 0.8)]
-target_train = target[:math.floor(len(target) * 0.8)]
+data_train = features[:math.floor(len(features) * 0.85)]
+target_train = target[:math.floor(len(target) * 0.85)]
 
-data_test = features[math.floor(len(features) * 0.8):]
-target_test = target[math.floor(len(target) * 0.8):]
+data_test = features[math.floor(len(features) * 0.85):]
+target_test = target[math.floor(len(target) * 0.85):]
 
 ## RANDOM FOREST - MODEL
 
 from sklearn.ensemble import RandomForestRegressor
 
 rf = RandomForestRegressor(n_estimators=1400,
-                               min_samples_split=5,
-                               min_samples_leaf=2,
-                               max_features='sqrt',
-                               random_state=42,
-                               max_depth=None,
-                               criterion='mse',
-                               bootstrap=False,
-                               verbose=1)
+                           min_samples_split=2,
+                           min_samples_leaf=2,
+                           max_features='auto',
+                           random_state=42,
+                           max_depth=70,
+                           criterion='mse',
+                           bootstrap=True,
+                           verbose=1,
+                           n_jobs=3)
+
+print('Training model on {} samples'.format(len(data_train)))
 
 rf.fit(data_train, target_train)
+
+print('Predicting {} prices'.format(len(data_test)))
 
 predictions = rf.predict(data_test)
 
 errors = abs(predictions - target_test)
+
 
 print('Mean Absolute Error:', round(np.mean(errors), 2))
 
@@ -53,41 +62,32 @@ accuracy = 100 - np.mean(mape)
 print('Accuracy:', round(accuracy, 2), '%.')
 
 
+print('\n \n Predictions samples:')
+for i in range(min(len(predictions), 30)):
+    print('Predicted: {},      Actual: {}'.format(predictions[i], target_test[i]))
+
+total_accurate = 0
+for i in range(min(len(predictions), 30)):
+    if round(predictions[i]) == target_test[i]:
+        total_accurate += 1
+
+print('\n Total accurate price intervals: {}/{}'.format(total_accurate, len(predictions)))
+
+print_feature_importance(rf, feature_list)
 
 
-# y = rf.feature_importances_
-# list_y = [a for a in y if a > 0.005]
-# print(list_y)
-#
-# list_of_index = []
-# for i in list_y:
-#     a = np.where(y==i)[0][0]
-#     list_of_index.append(a)
-# print(list_of_index)
-#
-# col = []
-# for i in feature_list:
-#     col.append(i)
-# labels = []
-#
-# for i in list_of_index:
-#     b = col[i]
-#     labels.append(b)
-#
-#
-# import matplotlib.pyplot as plt
-# y = list_y
-# fig, ax = plt.subplots()
-# width = 0.8
-# ind = np.arange(len(y))
-# ax.barh(ind, y,width, color="pink")
-# ax.set_yticks(ind+width/10)
-# ax.set_yticklabels(labels, minor=False)
-# plt.title('Feature importance in Random Forest Regression')
-# plt.xlabel('Relative importance')
-# plt.ylabel('feature')
-# plt.figure(figsize=(10,8.5))
-# fig.set_size_inches(10, 8.5, forward=True)
-# plt.show()
+#Serialize the model and save
+
+
+import joblib
+
+joblib.dump(rf, 'randomfs.pkl')
+print("Random Forest Model Saved")
+#Load the model
+lr = joblib.load('randomfs.pkl')
+# Save features from training
+rnd_columns = list(features_columns)
+joblib.dump(rnd_columns, 'rnd_columns.pkl')
+print("Random Forest Model Colums Saved")
 
 

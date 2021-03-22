@@ -7,3 +7,8 @@ MAX_LIVABLE_AREA = 150
 MAX_NR_ROOMS = 8
 MAX_PRICE_PER_SQ_METER = 30
 RON_TO_EURO_CONVERSION_RATE = 4.7
+
+
+SAVE_DIR = r'C:\Users\pohri\Desktop\An 4\Licenta\saved_models'
+
+FLASK_PORT = 12345

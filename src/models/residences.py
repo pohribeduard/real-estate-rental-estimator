@@ -58,7 +58,7 @@ class Residences(BaseTable):
                                           Residences.building_year, Residences.balconies, Residences.balconies_closed,
                                           Residences.built_area,
                                           Residences.comfort, Residences.layout).join(AdLocations).filter(
-                AdLocations.zone_id).limit(limit)
+                AdLocations.zone_id)
 
         residences = self.clean_up_data(query.all())
 
@@ -105,6 +105,9 @@ class Residences(BaseTable):
                 if MIN_PRICE < res_dict['price'] < MAX_PRICE and res_dict['price'] / (res_dict['livable_area'] or res_dict['built_area']) < MAX_PRICE_PER_SQ_METER:
                     res_dict['livable_area'] = float(res_dict['livable_area']) if res_dict['livable_area'] else None
                     res_dict['built_area'] = float(res_dict['built_area']) if res_dict['built_area'] else None
+
+                    res_dict['price_interval'] = res_dict['price'] // 50
+
                     residences_list.append(res_dict)
 
         return residences_list
