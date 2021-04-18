@@ -5,13 +5,13 @@ import pandas as pd
 
 from src.visualization.feature_importance import print_feature_importance
 
-residences_nr = 1200
+residences_nr = 12000
 
 list_features_to_drop = ['price', 'currency', 'price_interval']
 
 residence_table = Residences()
-residences = residence_table.get_residences(residences_nr)
-# residences = residence_table.get_all_residences()
+# residences = residence_table.get_residences(residences_nr)
+residences = residence_table.get_all_residences()
 residences = pd.DataFrame(residences)
 residences = residences.fillna(-999)
 residences = residences.sample(frac=1)
@@ -42,7 +42,7 @@ rf = RandomForestRegressor(n_estimators=1400,
                            criterion='mse',
                            bootstrap=True,
                            verbose=1,
-                           n_jobs=3)
+                           n_jobs=-1)
 
 print('Training model on {} samples'.format(len(data_train)))
 
@@ -81,13 +81,13 @@ print_feature_importance(rf, feature_list)
 
 import joblib
 
-joblib.dump(rf, 'randomfs.pkl')
+joblib.dump(rf, '../web/randomfs.pkl')
 print("Random Forest Model Saved")
 #Load the model
-lr = joblib.load('randomfs.pkl')
+lr = joblib.load('../web/randomfs.pkl')
 # Save features from training
 rnd_columns = list(features_columns)
-joblib.dump(rnd_columns, 'rnd_columns.pkl')
+joblib.dump(rnd_columns, '../web/rnd_columns.pkl')
 print("Random Forest Model Colums Saved")
 
 
