@@ -25,7 +25,6 @@ features_columns = features.columns
 feature_list = list(features.columns)
 features = np.array(features)
 
-
 data_train = features[:math.floor(len(features) * 0.9)]
 target_train = target[:math.floor(len(target) * 0.9)]
 print('Number of training samples: {}'.format(len(data_train)))
@@ -59,21 +58,20 @@ predictions = rf.predict(data_test)
 
 errors = abs(predictions - target_test)
 
-
 print('Mean Absolute Error:', round(np.mean(errors), 2))
 
 mape = 100 * (errors / target_test)
 accuracy = 100 - np.mean(mape)
 print('Accuracy:', round(accuracy, 2), '%.')
 
-
 print('\n \n Predictions samples:')
 for i in range(min(len(predictions), 30)):
-    print('Predicted: {},      Actual: {}'.format(predictions[i], target_test[i]))
+    print('Predicted: {},        Actual: {},        Predicted interval: {},        Actual interval: {}'.format(
+        predictions[i], target_test[i], round(predictions[i]), round(target_test[i])))
 
 total_accurate = 0
 for i in range(len(predictions)):
-    if round(predictions[i]) == target_test[i]:
+    if round(predictions[i]) == round(target_test[i]):
         total_accurate += 1
         # print(predictions[i])
         # print(target_test[i])
@@ -82,22 +80,19 @@ print('\nTotal accurate price intervals: {}/{}'.format(total_accurate, len(predi
 
 print_feature_importance(rf, feature_list)
 
-
-#Serialize the model and save
+# Serialize the model and save
 #
 #
 import joblib
 
-now = datetime.now().strftime('%m-%d-%Y_%H_%M_%S')
-err = str(round(np.mean(errors), 2)).replace('.', '-')
-
-joblib.dump(rf, '../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
-print("Random Forest Model Saved")
-#Load the model
-lr = joblib.load('../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
-# Save features from training
-rnd_columns = list(features_columns)
-joblib.dump(rnd_columns, '../saved_models/rnd_columns_{}_{}_{}.pkl'.format(total_accurate, err, now))
-print("Random Forest Model Colums Saved")
-
-
+# now = datetime.now().strftime('%m-%d-%Y_%H_%M_%S')
+# err = str(round(np.mean(errors), 2)).replace('.', '-')
+#
+# joblib.dump(rf, '../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
+# print("Random Forest Model Saved")
+# #Load the model
+# lr = joblib.load('../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
+# # Save features from training
+# rnd_columns = list(features_columns)
+# joblib.dump(rnd_columns, '../saved_models/rnd_columns_{}_{}_{}.pkl'.format(total_accurate, err, now))
+# print("Random Forest Model Colums Saved")

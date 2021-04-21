@@ -8,6 +8,7 @@ from src.helpers.helpers import row_to_dict
 from src.models import BaseTable, NotNullColumn
 from src.models.ad_locations import AdLocations
 from src.models.zones import Zones
+from src.validators.residence_validator import ResidenceValidator
 
 
 class Residences(BaseTable):
@@ -64,7 +65,7 @@ class Residences(BaseTable):
                                           Residences.comfort, Residences.layout).join(AdLocations).filter(
                 AdLocations.zone_id)
 
-        residences = self.clean_up_data(query.all())
+        residences = self.format_residences(query.all())
 
         return residences
 
@@ -73,11 +74,11 @@ class Residences(BaseTable):
             .join(Zones).group_by(AdLocations.zone_id).having(func.count(AdLocations.zone_id) > 100)\
             .order_by(Zones.name)
 
-        zones = self.clean_up_zones(query.all())
+        zones = self.format_zones(query.all())
 
         return zones
 
-    def clean_up_zones(self, zones_results):
+    def format_zones(self, zones_results):
         zones_list = []
 
         for zone in zones_results:
@@ -89,7 +90,7 @@ class Residences(BaseTable):
 
         return zones_list
 
-    def clean_up_data(self, residences):
+    def format_residences(self, residences):
         residences_list = []
 
         for residence in residences:
@@ -112,25 +113,16 @@ class Residences(BaseTable):
                 'building_year': residence.building_year
             }
 
-            if res_dict['price'] \
-                    and ((res_dict['livable_area'] and MAX_LIVABLE_AREA > res_dict['livable_area'] > MIN_LIVABLE_AREA) \
-                    or (res_dict['built_area'] and MAX_LIVABLE_AREA > res_dict['built_area'] > MIN_LIVABLE_AREA))\
-                    and res_dict['rooms'] and res_dict['rooms'] < MAX_NR_ROOMS:
-
-                if res_dict['building_year']:
-                    if res_dict['building_year'] > 2021 or 1900 < int(str(res_dict['building_year'])[:4]) < 2020:
-                        res_dict['building_year'] = int(str(res_dict['building_year'])[:4])
-                    else:
-                        res_dict['building_year'] = np.nan
-                if res_dict['currency'] == 'RON':
-                    res_dict['price'] = int(res_dict['price'] / RON_TO_EURO_CONVERSION_RATE)
-                if MIN_PRICE < res_dict['price'] < MAX_PRICE \
-                        and res_dict['price'] / (res_dict['livable_area'] or res_dict['built_area']) < MAX_PRICE_PER_SQ_METER:
-                    res_dict['livable_area'] = float(res_dict['livable_area']) if res_dict['livable_area'] else None
-                    res_dict['built_area'] = float(res_dict['built_area']) if res_dict['built_area'] else None
-
-                    res_dict['price_interval'] = res_dict['price'] // 50
-
-                    residences_list.append(res_dict)
+            res_dict = ResidenceValidator().clean_up_residences(res_dict)
+            if res_dict:
+                #   TODO: decide pe care sa o folosesti
+                res_dict['price_interval'] = res_dict['price'] / 50
+                # res_dict['price_interval'] = res_dict['price'] // 50
+                residences_list.append(res_dict)
 
         return residences_list
+
+
+
+
+
