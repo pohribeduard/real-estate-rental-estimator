@@ -7,13 +7,13 @@ import pandas as pd
 
 from src.visualization.feature_importance import print_feature_importance
 
-residences_nr = 12000
+residences_nr = 120000
 
 list_features_to_drop = ['price', 'currency', 'price_interval']
 
 residence_table = Residences()
-# residences = residence_table.get_residences(residences_nr)
-residences = residence_table.get_all_residences()
+residences = residence_table.get_residences(residences_nr)
+# residences = residence_table.get_all_residences()
 print('Number of residences: {}'.format(len(residences)))
 residences = pd.DataFrame(residences)
 residences = residences.fillna(-999)
