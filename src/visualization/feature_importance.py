@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def print_feature_importance(rf, feature_list):
     y = rf.feature_importances_
     list_y = [a for a in y if a > 0.005]
@@ -33,4 +34,4 @@ def print_feature_importance(rf, feature_list):
     plt.ylabel('feature')
     plt.figure(figsize=(10, 8.5))
     fig.set_size_inches(10, 8.5, forward=True)
-    plt.show()
+    # plt.show()

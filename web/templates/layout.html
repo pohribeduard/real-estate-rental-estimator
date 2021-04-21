@@ -10,75 +10,125 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myClose()">
     <span aria-hidden="true">&times;</span>
     </button>
-
 </div>
 
 {% endif %}
 
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col col-md-8">
+        {% if specs %}
+        <div class="col col-md-2 w-100 mr-5">
+            <table class="table table-hover table-bordered table-dark">
+                <thead>
+                <th scope="col">
+                    Specificatie
+                </th>
+                <th scope="col">
+                    Valoare
+                </th>
+                </thead>
+                <tbody>
+                {% for key, value in specs.items() %}
+                    <tr>
+                        <th scope="row">{{key}}</th>
+                        {% if value != -999 %}
+                        <td>{{value}}</td>
+                        {% else %}
+                        <td>N/A</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {% endif %}
+        <div class="col col-md-8 mt-5">
             <h2>Pagina predictie</h2>
             <form class="" action="/predict" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Numarul de balcoane</label>
-                        <input type="number" name="balconies" class="form-control" placeholder="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Numarul de balcoane inchise</label>
-                        <input type="number" name="balconies_closed" class="form-control" placeholder="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Numarul de bai</label>
-                        <input type="number" name="bathrooms" class="form-control" placeholder="1">
+                        <label>Numar de camere</label>
+                        <input type="number" name="rooms" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Suprafata construita</label>
-                        <input type="number" name="built_area" class="form-control" placeholder="1">
+                        <input type="number" name="built_area" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Suprafata locuibila</label>
-                        <input type="number" name="livable_area" class="form-control" placeholder="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Comfort</label>
-                        <select class="form-control" name="comfort">
-                            <option label="1" value="1">1</option>
-                            <option label="2" value="2" selected="selected">2</option>
-                            <option label="3" value="3">3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Etaj</label>
-                        <input type="number" name="floor" class="form-control" placeholder="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Numar total etaje</label>
-                        <input type="number" name="floors" class="form-control" placeholder="1">
+                        <label>Suprafata utila</label>
+                        <input type="number" name="livable_area" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Structura</label>
                         <select class="form-control" name="layout">
                             <option label="Decomandat" value="1">Decomandat</option>
-                            <option label="Semidecomandat" value="2" selected="selected">Semidecomandat</option>
+                            <option label="Semidecomandat" value="2">Semidecomandat</option>
                             <option label="Nedecomandat" value="4">Nedecomandat</option>
                             <option label="Circular" value="3">Circular</option>
                             <option label="Vagon" value="5">Vagon</option>
+                            <option label="N/A" value="-999" selected="selected">N/A</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Numar de camere</label>
-                        <input type="number" name="rooms" class="form-control" placeholder="1">
+                        <label>Comfort</label>
+                        <select class="form-control" name="comfort">
+                            <option label="1" value="1">1</option>
+                            <option label="2" value="2">2</option>
+                            <option label="3" value="3">3</option>
+                            <option label="N/A" value="-999" selected="selected">N/A</option>
+                        </select>
                     </div>
-                <!--    TODO: schimba asta-->
+                    <div class="form-group">
+                        <label>Etaj</label>
+                        <input type="number" name="floor" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Numar total etaje</label>
+                        <input type="number" name="floors" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Numarul de balcoane</label>
+                        <input type="number" name="balconies" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Numarul de balcoane inchise</label>
+                        <input type="number" name="balconies_closed" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Numarul de bai</label>
+                        <input type="number" name="bathrooms" class="form-control">
+                    </div>
+
+                    {% if zones %}
+<!--                    <div class="form-group">-->
+<!--                        <label>Zone</label>-->
+<!--                        <input type="text" list="zones-list" name="zone_id" class="form-control" />-->
+<!--                        <datalist id="zones-list">-->
+<!--                        {% for zone in zones %}-->
+<!--                          <option label="{{ zone.name }}" value="{{ zone.zone_id }}">{{ zone.name }}</option>-->
+<!--                        {% endfor %}-->
+<!--                        </datalist>-->
+<!--                    </div>-->
+
+                    <div class="form-group">
+                        <label>Zone</label>
+                        <select class="form-control" name="zone_id">
+                            {% for zone in zones %}
+                            <option label="{{ zone.name }}" value="{{ zone.zone_id }}">{{ zone.name }}</option>
+                            {% endfor %}
+                            <option label="N/A" value="-999" selected="selected">N/A</option>
+                        </select>
+                    </div>
+                    {% else %}
                     <div class="form-group">
                         <label>Zone ID</label>
-                        <input type="number" name="zone_id" class="form-control" placeholder="43">
+                        <input type="number" name="zone_id" class="form-control">
                     </div>
+                    {% endif %}
                     <div class="form-group">
                         <label>Anul de constructie al blocului</label>
-                        <input type="number" name="building_year" class="form-control" placeholder="2010">
+                        <input type="number" name="building_year" class="form-control">
                     </div>
 
                 </div>

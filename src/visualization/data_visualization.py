@@ -6,7 +6,7 @@ from src.models.residences import Residences
 
 def plot_surface_and_rental_price():
     residence_table = Residences()
-    residences = residence_table.get_residences(100000)
+    residences = residence_table.get_all_residences()
 
     residences_df = pd.DataFrame(residences)
     plt.figure()
@@ -21,7 +21,7 @@ def plot_surface_and_rental_price():
 
 def plot_surface_vs_price_per_sq_meter():
     residence_table = Residences()
-    residences = residence_table.get_residences(100000)
+    residences = residence_table.get_all_residences()
 
     residences_df = pd.DataFrame(residences)
     plt.figure()
@@ -36,7 +36,7 @@ def plot_surface_vs_price_per_sq_meter():
 
 def plot_rooms_vs_price():
     residence_table = Residences()
-    residences = residence_table.get_residences(100000)
+    residences = residence_table.get_all_residences()
 
     residences_df = pd.DataFrame(residences)
     residences_df = residences_df[residences_df.rooms.notnull()]

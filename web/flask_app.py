@@ -1,12 +1,18 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import joblib
 import traceback
 import pandas as pd
 
 from conf.settings import FLASK_PORT
+from src.models.residences import Residences
 
 app = Flask(__name__)
 app.debug = True
+
+
+@app.route('/')
+def home():
+    return redirect('/predict', code=302)
 
 
 @app.route('/prediction-api', methods=['POST'])
@@ -30,6 +36,9 @@ def predict_api():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
+    res_table = Residences()
+    zones = res_table.get_zones()
+
     if request.method == 'POST':
 
         json_ = {}
@@ -52,9 +61,10 @@ def predict():
         price_range_min = round(predict[0]) * 50
         price_range_max = round(predict[0]) * 50 + 50
         string_interval = "{} - {} EURO".format(price_range_min, price_range_max)
-        return render_template("layout.html", price_interval=string_interval)
+        return render_template("layout.html", zones=zones, price_interval=string_interval, specs=json_[0])
     else:
-        return render_template("layout.html")
+        return render_template("layout.html", zones=zones)
+
 
 if __name__ == '__main__':
     port = FLASK_PORT

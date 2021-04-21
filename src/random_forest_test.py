@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import numpy as np
 import math
 from src.models.residences import Residences
@@ -12,6 +14,7 @@ list_features_to_drop = ['price', 'currency', 'price_interval']
 residence_table = Residences()
 # residences = residence_table.get_residences(residences_nr)
 residences = residence_table.get_all_residences()
+print('Number of residences: {}'.format(len(residences)))
 residences = pd.DataFrame(residences)
 residences = residences.fillna(-999)
 residences = residences.sample(frac=1)
@@ -23,22 +26,24 @@ feature_list = list(features.columns)
 features = np.array(features)
 
 
-data_train = features[:math.floor(len(features) * 0.85)]
-target_train = target[:math.floor(len(target) * 0.85)]
+data_train = features[:math.floor(len(features) * 0.9)]
+target_train = target[:math.floor(len(target) * 0.9)]
+print('Number of training samples: {}'.format(len(data_train)))
 
-data_test = features[math.floor(len(features) * 0.85):]
-target_test = target[math.floor(len(target) * 0.85):]
+data_test = features[math.floor(len(features) * 0.9):]
+target_test = target[math.floor(len(target) * 0.9):]
+print('Number of test samples: {}'.format(len(data_test)))
 
 ## RANDOM FOREST - MODEL
 
 from sklearn.ensemble import RandomForestRegressor
 
-rf = RandomForestRegressor(n_estimators=1400,
-                           min_samples_split=2,
-                           min_samples_leaf=2,
+rf = RandomForestRegressor(n_estimators=600,
+                           min_samples_split=5,
+                           min_samples_leaf=1,
                            max_features='auto',
                            random_state=42,
-                           max_depth=70,
+                           max_depth=80,
                            criterion='mse',
                            bootstrap=True,
                            verbose=1,
@@ -67,27 +72,32 @@ for i in range(min(len(predictions), 30)):
     print('Predicted: {},      Actual: {}'.format(predictions[i], target_test[i]))
 
 total_accurate = 0
-for i in range(min(len(predictions), 30)):
+for i in range(len(predictions)):
     if round(predictions[i]) == target_test[i]:
         total_accurate += 1
+        # print(predictions[i])
+        # print(target_test[i])
 
-print('\n Total accurate price intervals: {}/{}'.format(total_accurate, len(predictions)))
+print('\nTotal accurate price intervals: {}/{}'.format(total_accurate, len(predictions)))
 
 print_feature_importance(rf, feature_list)
 
 
 #Serialize the model and save
-
-
+#
+#
 import joblib
 
-joblib.dump(rf, '../web/randomfs.pkl')
+now = datetime.now().strftime('%m-%d-%Y_%H_%M_%S')
+err = str(round(np.mean(errors), 2)).replace('.', '-')
+
+joblib.dump(rf, '../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
 print("Random Forest Model Saved")
 #Load the model
-lr = joblib.load('../web/randomfs.pkl')
+lr = joblib.load('../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
 # Save features from training
 rnd_columns = list(features_columns)
-joblib.dump(rnd_columns, '../web/rnd_columns.pkl')
+joblib.dump(rnd_columns, '../saved_models/rnd_columns_{}_{}_{}.pkl'.format(total_accurate, err, now))
 print("Random Forest Model Colums Saved")
 
 

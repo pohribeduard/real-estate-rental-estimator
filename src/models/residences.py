@@ -1,5 +1,5 @@
 from sqlalchemy.dialects import mysql
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, func
 from sqlalchemy.orm import relationship
 import numpy as np
 from conf.settings import MAX_PRICE, MIN_LIVABLE_AREA, MAX_LIVABLE_AREA, MAX_NR_ROOMS, MAX_PRICE_PER_SQ_METER, \
@@ -7,6 +7,7 @@ from conf.settings import MAX_PRICE, MIN_LIVABLE_AREA, MAX_LIVABLE_AREA, MAX_NR_
 from src.helpers.helpers import row_to_dict
 from src.models import BaseTable, NotNullColumn
 from src.models.ad_locations import AdLocations
+from src.models.zones import Zones
 
 
 class Residences(BaseTable):
@@ -45,6 +46,9 @@ class Residences(BaseTable):
 
         return query.all()
 
+    def get_all_residences(self):
+        return self.get_residences(-1)
+
     def get_residences(self, limit:int):
         if limit != -1:
             query = self.db_session.query(AdLocations.zone_id, Residences.price, Residences.currency, Residences.rooms,
@@ -64,8 +68,26 @@ class Residences(BaseTable):
 
         return residences
 
-    def get_all_residences(self):
-        return self.get_residences(-1)
+    def get_zones(self):
+        query = self.db_session.query(AdLocations.zone_id, Zones.name).select_from(Residences).join(AdLocations)\
+            .join(Zones).group_by(AdLocations.zone_id).having(func.count(AdLocations.zone_id) > 100)\
+            .order_by(Zones.name)
+
+        zones = self.clean_up_zones(query.all())
+
+        return zones
+
+    def clean_up_zones(self, zones_results):
+        zones_list = []
+
+        for zone in zones_results:
+            zone_dict = {
+                'zone_id': zone.zone_id,
+                'name': zone.name.title()
+            }
+            zones_list.append(zone_dict)
+
+        return zones_list
 
     def clean_up_data(self, residences):
         residences_list = []
@@ -102,7 +124,8 @@ class Residences(BaseTable):
                         res_dict['building_year'] = np.nan
                 if res_dict['currency'] == 'RON':
                     res_dict['price'] = int(res_dict['price'] / RON_TO_EURO_CONVERSION_RATE)
-                if MIN_PRICE < res_dict['price'] < MAX_PRICE and res_dict['price'] / (res_dict['livable_area'] or res_dict['built_area']) < MAX_PRICE_PER_SQ_METER:
+                if MIN_PRICE < res_dict['price'] < MAX_PRICE \
+                        and res_dict['price'] / (res_dict['livable_area'] or res_dict['built_area']) < MAX_PRICE_PER_SQ_METER:
                     res_dict['livable_area'] = float(res_dict['livable_area']) if res_dict['livable_area'] else None
                     res_dict['built_area'] = float(res_dict['built_area']) if res_dict['built_area'] else None
 

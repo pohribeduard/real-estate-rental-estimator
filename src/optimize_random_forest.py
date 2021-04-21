@@ -8,7 +8,8 @@ from src.models.residences import Residences
 list_features_to_drop = ['price', 'currency', 'price_interval']
 
 residence_table = Residences()
-residences = residence_table.get_residences(20000)
+# residences = residence_table.get_residences(20000)
+residences = residence_table.get_all_residences()
 residences = pd.DataFrame(residences)
 residences = residences.fillna(-1)
 residences = residences.sample(frac=1)
