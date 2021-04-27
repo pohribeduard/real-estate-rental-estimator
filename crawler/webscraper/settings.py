@@ -73,9 +73,10 @@ DUPEFILTER_DEBUG = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'webscraper.pipelines.WebscraperPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'webscraper.pipelines.WebscraperPipeline': 300,
+   'webscraper.pipelines.AdLocationsPipeline': 301,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

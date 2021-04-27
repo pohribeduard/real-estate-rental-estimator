@@ -19,6 +19,7 @@ residences = pd.DataFrame(residences)
 residences = residences.fillna(-999)
 residences = residences.sample(frac=1)
 
+# target = np.array(residences['price'])
 target = np.array(residences['price_interval'])
 features = residences.drop(list_features_to_drop, axis=1)
 features_columns = features.columns
@@ -37,12 +38,12 @@ print('Number of test samples: {}'.format(len(data_test)))
 
 from sklearn.ensemble import RandomForestRegressor
 
-rf = RandomForestRegressor(n_estimators=600,
-                           min_samples_split=5,
-                           min_samples_leaf=1,
+rf = RandomForestRegressor(n_estimators=1400,
+                           min_samples_split=2,
+                           min_samples_leaf=2,
                            max_features='auto',
                            random_state=42,
-                           max_depth=80,
+                           max_depth=70,
                            criterion='mse',
                            bootstrap=True,
                            verbose=1,

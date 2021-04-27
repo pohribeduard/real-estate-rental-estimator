@@ -15,7 +15,6 @@ class Residences(BaseTable):
     __tablename__ = 'residences'
 
     id = NotNullColumn(mysql.INTEGER, primary_key=True)
-    main_ad_id = Column(mysql.VARCHAR, ForeignKey('ads.id'))
     price = Column(mysql.INTEGER)
     currency = Column(mysql.VARCHAR)
     location_id = Column(mysql.INTEGER, ForeignKey('ad_locations.id'))
@@ -38,7 +37,6 @@ class Residences(BaseTable):
     created_at = Column(mysql.DATETIME)
 
     # location = relationship('AdLocations', foreign_keys=[location_id])
-    # ad = relationship('Ads', foreign_keys=[main_ad_id])
 
     list_of_desired_fields = []
 
@@ -89,6 +87,29 @@ class Residences(BaseTable):
             zones_list.append(zone_dict)
 
         return zones_list
+
+    def get_ad_locations(self):
+        query = self.db_session.query(AdLocations.id, func.count(AdLocations.zone_id), Zones.name).select_from(Residences).join(AdLocations) \
+            .join(Zones).group_by(AdLocations.zone_id).having(func.count(AdLocations.zone_id) > 100) \
+            .order_by(func.count(AdLocations.zone_id).desc())
+
+        ad_loc_ids = self.format_ad_locations(query.all())
+
+        return ad_loc_ids
+
+    def format_ad_locations(self, ad_locs):
+        ad_loc_list = []
+
+        for ad_loc in ad_locs:
+            ad_loc_dict = {
+                'ad_location_id': ad_loc.id,
+                'name': ad_loc.name.lower()
+            }
+
+            ad_loc_list.append(ad_loc_dict)
+
+        return ad_loc_list
+
 
     def format_residences(self, residences):
         residences_list = []
