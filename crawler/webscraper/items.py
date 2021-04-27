@@ -19,6 +19,7 @@ class ResidenceItem(scrapy.Item):
     layout = scrapy.Field()
     rooms = scrapy.Field()
     zone = scrapy.Field()
+    zone_id = scrapy.Field()
     ad_location_id = scrapy.Field()
     building_year = scrapy.Field()
     price = scrapy.Field()
