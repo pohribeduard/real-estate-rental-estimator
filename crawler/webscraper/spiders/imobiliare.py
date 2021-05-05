@@ -80,4 +80,7 @@ class Imobiliare(scrapy.Spider):
         #balconies_closed
         #convert price din RON -> EUR
 
+        if self.url_to_crawl:
+            print('Item crawled')
+
         yield loader.load_item()

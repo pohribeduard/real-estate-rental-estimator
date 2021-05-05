@@ -48,9 +48,15 @@ def predict():
 
         if request.form.get('url_to_crawl'):
             # item = Thread(target=crawl_item, args=[request.form.get('url_to_crawl')]).start()
+            item = None
             item = crawl_item(request.form.get('url_to_crawl'))
+            while item is None:
+                print('sleep pr 0.5')
+                time.sleep(0.5)
             # time.sleep(3)
             print(item)
+            if 'error' in item:
+                return render_template("layout.html", zones=zones, error_msg='Nu am putut face extrage detaliile despre apartament')
             json_ = item
         else:
             json_ = {}
