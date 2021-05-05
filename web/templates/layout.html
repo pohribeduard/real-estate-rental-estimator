@@ -7,7 +7,7 @@
 {% if price_interval %}
 <div class="alert alert-success alert-dismissible fade show" id="alert-predict" role="alert" style="font-size: larger;">
     Pretul chiriei intre: <strong> {{ price_interval }}</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myClose()">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseSucces()">
     <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -17,7 +17,7 @@
 {% if error_msg %}
 <div class="alert alert-danger alert-dismissible fade show" id="alert-predict-error" role="alert" style="font-size: larger;">
     <strong> {{ error_msg }}</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myClose()">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseError()">
     <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -27,7 +27,7 @@
 <div class="container">
     <div class="row justify-content-md-center">
         {% if specs %}
-        <div class="col col-md-2 w-100 mr-5">
+        <div class="col col-md-2 w-100 mr-5" id="table-predict-succes">
             <table class="table table-hover table-bordered table-dark">
                 <thead>
                 <th scope="col">
@@ -35,6 +35,9 @@
                 </th>
                 <th scope="col">
                     Valoare
+<!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseSucces()">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
                 </th>
                 </thead>
                 <tbody>
@@ -160,9 +163,13 @@
 </div>
 
 <script>
-        function myClose(){
-            console.log('aaa');
+        function myCloseSucces(){
             document.getElementById('alert-predict').remove();
+            document.getElementById('table-predict-succes').remove();
+        }
+
+        function myCloseError(){
+            document.getElementById('alert-predict-error').remove();
         }
     </script>
 

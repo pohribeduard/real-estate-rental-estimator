@@ -1,6 +1,4 @@
-import threading
 import time
-from threading import Thread
 
 from flask import Flask, request, jsonify, render_template, redirect
 import joblib
@@ -47,16 +45,20 @@ def predict():
     if request.method == 'POST':
 
         if request.form.get('url_to_crawl'):
-            # item = Thread(target=crawl_item, args=[request.form.get('url_to_crawl')]).start()
             item = None
             item = crawl_item(request.form.get('url_to_crawl'))
+
+            total_sleep = 0
             while item is None:
-                print('sleep pr 0.5')
+                print('Crawler iteration - waiting for item in flask - sleep 0.5')
+                total_sleep += 0.5
                 time.sleep(0.5)
-            # time.sleep(3)
-            print(item)
+                if total_sleep == 8:
+                    return render_template("layout.html", zones=zones, error_msg='Nu am putut face extrage detaliile despre apartament')
+
+            # print('Item:', item)
             if 'error' in item:
-                return render_template("layout.html", zones=zones, error_msg='Nu am putut face extrage detaliile despre apartament')
+                return render_template("layout.html", zones=zones, error_msg=item.get('error'))
             json_ = item
         else:
             json_ = {}
@@ -67,14 +69,14 @@ def predict():
 
         json_= [json_]
 
-        print(json_)
+        print('Json:', json_)
 
         query = pd.get_dummies(pd.DataFrame(json_))
         query = query.reindex(columns=rnd_columns, fill_value=0)
 
         predict = list(lr.predict(query))
 
-        print(predict)
+        print('Prediction:', predict)
 
         price_range_min = round(predict[0]) * 50
         price_range_max = round(predict[0]) * 50 + 50
@@ -83,8 +85,6 @@ def predict():
     else:
         return render_template("layout.html", zones=zones)
 
-def flaskThread():
-    app.run()
 
 if __name__ == '__main__':
     port = FLASK_PORT
@@ -95,8 +95,7 @@ if __name__ == '__main__':
 
     print ('Model columns loaded')
 
-    threading.Thread(target=app.run(port=port)).start()
-    # app.run(port=port, debug=False, use_reloader=False)
+    app.run(port=port)
 
 
 """

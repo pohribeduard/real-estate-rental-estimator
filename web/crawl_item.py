@@ -1,10 +1,8 @@
-from scrapy.crawler import CrawlerProcess, CrawlerRunner
+from scrapy.crawler import CrawlerRunner
 import re
 import time
 from crochet import setup
-from twisted.internet import reactor
 from crawler.webscraper.helpers.similar import similar
-from crawler.webscraper.pipelines import AdLocationsPipeline
 from crawler.webscraper.spiders.imobiliare import Imobiliare
 from src.models.residences import Residences
 
@@ -46,16 +44,16 @@ def crawl_item(url_to_crawl):
                            FindZonePipeline: 301, }
     })
 
-
     d = runner.crawl(Imobiliare, url_to_crawl=url_to_crawl)
+
     total_sleep = 0
     while items == []:
         print('Crawler iteration sleep 0.5')
         total_sleep += 0.5
         time.sleep(0.5)
         if total_sleep == 8:
-            return 'error'
-    # time.sleep(3)
+            return {'error': 'Nu am putut face extrage detaliile despre apartament'}
+
     for item in items:
         print("url: " + item['url'])
 
