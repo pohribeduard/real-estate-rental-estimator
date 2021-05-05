@@ -1,3 +1,7 @@
+import threading
+import time
+from threading import Thread
+
 from flask import Flask, request, jsonify, render_template, redirect
 import joblib
 import traceback
@@ -5,6 +9,7 @@ import pandas as pd
 
 from conf.settings import FLASK_PORT
 from src.models.residences import Residences
+from web.crawl_item import crawl_item
 
 app = Flask(__name__)
 app.debug = True
@@ -41,11 +46,18 @@ def predict():
 
     if request.method == 'POST':
 
-        json_ = {}
+        if request.form.get('url_to_crawl'):
+            # item = Thread(target=crawl_item, args=[request.form.get('url_to_crawl')]).start()
+            item = crawl_item(request.form.get('url_to_crawl'))
+            # time.sleep(3)
+            print(item)
+            json_ = item
+        else:
+            json_ = {}
 
-        for key, val in request.form.items(multi=False):
-            if val:
-                json_[key] = float(val)
+            for key, val in request.form.items(multi=False):
+                if val:
+                    json_[key] = float(val)
 
         json_= [json_]
 
@@ -65,6 +77,8 @@ def predict():
     else:
         return render_template("layout.html", zones=zones)
 
+def flaskThread():
+    app.run()
 
 if __name__ == '__main__':
     port = FLASK_PORT
@@ -74,7 +88,9 @@ if __name__ == '__main__':
     rnd_columns = joblib.load('rnd_columns.pkl')
 
     print ('Model columns loaded')
-    app.run(port=port, debug=True)
+
+    threading.Thread(target=app.run(port=port)).start()
+    # app.run(port=port, debug=False, use_reloader=False)
 
 
 """

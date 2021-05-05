@@ -1,5 +1,6 @@
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
 import re
+from twisted.internet import reactor
 from crawler.webscraper.helpers.similar import similar
 from crawler.webscraper.pipelines import AdLocationsPipeline
 from crawler.webscraper.spiders.imobiliare import Imobiliare
@@ -37,17 +38,29 @@ def crawl_item(url_to_crawl):
             return item
 
     # create a crawler process with the specified settings
-    process = CrawlerProcess({
+    # process = CrawlerProcess({
+    #     'USER_AGENT': 'scrapy',
+    #     'LOG_LEVEL': 'INFO',
+    #     'ITEM_PIPELINES': {ItemCollectorPipeline: 302,
+    #                        FindZonePipeline: 301, }
+    # })
+
+    # start the spider
+    # process.crawl(Imobiliare,
+    #               url_to_crawl=url_to_crawl)
+    # process.start()
+
+    runner = CrawlerRunner({
         'USER_AGENT': 'scrapy',
         'LOG_LEVEL': 'INFO',
         'ITEM_PIPELINES': {ItemCollectorPipeline: 302,
                            FindZonePipeline: 301, }
     })
 
-    # start the spider
-    process.crawl(Imobiliare,
-                  url_to_crawl=url_to_crawl)
-    process.start()
+    d = runner.crawl(Imobiliare, url_to_crawl=url_to_crawl)
+    d.addBoth(lambda _: reactor.stop())
+    reactor.run()
+
 
     # print the items
     for item in items:
