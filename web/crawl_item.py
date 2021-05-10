@@ -4,6 +4,7 @@ import time
 from crochet import setup
 from crawler.webscraper.helpers.similar import similar
 from crawler.webscraper.spiders.imobiliare import Imobiliare
+from src.helpers.helpers import get_url_base
 from src.models.residences import Residences
 
 setup()
@@ -44,7 +45,10 @@ def crawl_item(url_to_crawl):
                            FindZonePipeline: 301, }
     })
 
-    d = runner.crawl(Imobiliare, url_to_crawl=url_to_crawl)
+    if 'imobiliare.ro' in get_url_base(url_to_crawl):
+        d = runner.crawl(Imobiliare, url_to_crawl=url_to_crawl)
+    else:
+        return {'error': 'Website-ul "{}" nu este suportat!'.format(get_url_base(url_to_crawl))}
 
     total_sleep = 0
     while items == []:
