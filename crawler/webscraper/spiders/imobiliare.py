@@ -25,7 +25,7 @@ class Imobiliare(scrapy.Spider):
 
     def __init__(self, url_to_crawl=None, **kwargs):
         """
-        Used in order to receive the file name from the console
+        Used in order to receive the url from the console
         :param filename:
         :param kwargs:
         """
@@ -57,6 +57,7 @@ class Imobiliare(scrapy.Spider):
 
         if any(map(str.isdigit, loader.get_output_value('price'))) and\
                 not loader.get_output_value('price') or not 10 < float(loader.get_output_value('price')) < 10000:
+            self.crawler.stats.inc_value('crawler/dropped_items')
             return
 
         loader.add_value('url', response.url)

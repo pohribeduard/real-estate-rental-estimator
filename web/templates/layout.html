@@ -61,13 +61,16 @@
             <form class="" action="/predict" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>URL Apartament:</label>
+                        <label>URL Apartament*:</label>
                         <input type="text" name="url_to_crawl" class="form-control" placeholder="https://www.imobiliare.ro/inchirieri-garsoniere/bucuresti/doamna-ghica/garsoniera-de-inchiriat-XV04000N9">
                     </div>
-                    <div class="modal-footer">
+                    <div style="float: right;">
+                        <p style="font-size: 10px;">*website-uri suportate: imobiliare.ro, homezz.ro</p>
+                    </div>
+                    <div class="modal-footer" style="width: 100%;">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                    <h3>Sau:</h3>
+                    <h3>Detalii Apartament:</h3>
                     <div class="form-group">
                         <label>Numar de camere</label>
                         <input type="number" name="rooms" class="form-control" placeholder="0">

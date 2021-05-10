@@ -3,6 +3,7 @@ import re
 import time
 from crochet import setup
 from crawler.webscraper.helpers.similar import similar
+from crawler.webscraper.spiders.homezz import HomeZZ
 from crawler.webscraper.spiders.imobiliare import Imobiliare
 from src.helpers.helpers import get_url_base
 from src.models.residences import Residences
@@ -47,6 +48,8 @@ def crawl_item(url_to_crawl):
 
     if 'imobiliare.ro' in get_url_base(url_to_crawl):
         d = runner.crawl(Imobiliare, url_to_crawl=url_to_crawl)
+    elif 'homezz.ro' in get_url_base(url_to_crawl):
+        d = runner.crawl(HomeZZ, url_to_crawl=url_to_crawl)
     else:
         return {'error': 'Website-ul "{}" nu este suportat!'.format(get_url_base(url_to_crawl))}
 
