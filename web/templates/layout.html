@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='mystyle.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
-<body style="background-color: #b3b0b0;">
+<body>
+
 {% if price_interval %}
 <div class="alert alert-success alert-dismissible fade show" id="alert-predict" role="alert" style="font-size: larger;">
     Pretul chiriei intre: <strong> {{ price_interval }}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseSucces()">
     <span aria-hidden="true">&times;</span>
     </button>
+
 </div>
 
 {% endif %}
@@ -24,54 +29,15 @@
 
 {% endif %}
 
-<div class="container">
-    <div class="row justify-content-md-center">
-        {% if specs %}
-        <div class="col col-md-2 w-100 mr-5" id="table-predict-succes">
-            <table class="table table-hover table-bordered table-dark">
-                <thead>
-                <th scope="col">
-                    Specificatie
-                </th>
-                <th scope="col">
-                    Valoare
-<!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseSucces()">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-                </th>
-                </thead>
-                <tbody>
-                {% for key, value in specs.items() %}
-                    <tr>
-                        <th scope="row">{{key}}</th>
-                        {% if value != -999 %}
-                        <td>{{value}}</td>
-                        {% else %}
-                        <td>N/A</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
 
-        </div>
-        {% endif %}
-        <div class="col col-md-8 mt-5">
-            <h2>Pagina predictie</h2>
-            <form class="" action="/predict" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>URL Apartament*:</label>
-                        <input type="text" name="url_to_crawl" class="form-control" placeholder="https://www.imobiliare.ro/inchirieri-garsoniere/bucuresti/doamna-ghica/garsoniera-de-inchiriat-XV04000N9">
-                    </div>
-                    <div style="float: right;">
-                        <p style="font-size: 10px;">*website-uri suportate: imobiliare.ro, homezz.ro</p>
-                    </div>
-                    <div class="modal-footer" style="width: 100%;">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    <h3>Detalii Apartament:</h3>
-                    <div class="form-group">
+<!--SECOND TAB-->
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="cover-two">
+        <h1>Detalii Apartament:</h1>
+        <form action="/predict" method="post" class="form-flex" style="width:40%">
+
+            <div class="form-group">
                         <label>Numar de camere</label>
                         <input type="number" name="rooms" class="form-control" placeholder="0">
                     </div>
@@ -125,17 +91,6 @@
                     </div>
 
                     {% if zones %}
-<!--                    <div class="form-group">-->
-<!--                        <label>Zone</label>-->
-<!--                        <input type="text" list="zones-list" name="zone_id" class="form-control" />-->
-<!--                        <datalist id="zones-list">-->
-<!--                        {% for zone in zones %}-->
-<!--                          <option label="{{ zone.name }}" value="{{ zone.zone_id }}">{{ zone.name }}</option>-->
-<!--                        {% endfor %}-->
-<!--                        </datalist>-->
-<!--                    </div>-->
-
-
                     <div class="form-group">
                         <label>Zone</label>
                         <select class="form-control" name="zone_id">
@@ -156,15 +111,48 @@
                         <input type="number" name="building_year" class="form-control" placeholder="0">
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+            <input class="btn btn-danger" type="submit" value="Submit" style="float: right">
+        </form>
+        <div class="row">
+            <input class="btn btn-info btn-lg mt-4" type="submit" value="Introducere URL" onclick="closeNav()">
         </div>
+
     </div>
 </div>
+
+
+<!--FIRST TAB-->
+<div class="container">
+
+    <div class="cover">
+    <h1>Pagina predictie</h1>
+    <form action="/predict" method="post" class="flex-form">
+      <label style="display: none">
+        <i class="ion-location"></i>
+      </label>
+      <input type="search" name="url_to_crawl" placeholder="https://www.imobiliare.ro/inchirieri-garsoniere/bucuresti/doamna-ghica/garsoniera-de-inchiriat-XV04000N9">
+      <input type="submit" value="Cauta">
+
+    </form>
+        <div style="float: right; color: white; margin-left: 250px;">
+            <p style="font-size: 10px;">*website-uri suportate: imobiliare.ro, homezz.ro</p>
+        </div>
+
+        <div class="row">
+            <input class="btn btn-info btn-lg mt-4" type="submit" value="Cautare manuala" onclick="openNav()">
+        </div>
+  </div>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 
 <script>
         function myCloseSucces(){
@@ -175,8 +163,7 @@
         function myCloseError(){
             document.getElementById('alert-predict-error').remove();
         }
-    </script>
-
+</script>
 
 </body>
 </html>
