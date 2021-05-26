@@ -8,7 +8,7 @@ body {
   font-family: "Lato", sans-serif;
   background-color: #efefef;
   margin: 0;
-  background: url('https://source.unsplash.com/G8rRItjrwkA') no-repeat center center fixed;
+  background: url('./main.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #0a0a0b;
   overflow: hidden;
@@ -111,7 +111,22 @@ label {
   z-index: 11;
   top: 0;
   left: 0;
-  background: url('https://i.ibb.co/5RVJghM/real-estate.jpg') no-repeat center center fixed;
+  background: url('./leftside.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.rightsidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 11;
+  top: 0;
+  right: 0;
+  background: url('./rightside.jpg') no-repeat center center fixed;
+  /*background: grey;*/
   background-size: cover;
   overflow-x: hidden;
   transition: 0.5s;
@@ -143,3 +158,10 @@ label {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+.label-leftsidenav{
+    color: black;
+    font-weight: bold;
+}
+
+

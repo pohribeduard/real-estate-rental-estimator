@@ -80,10 +80,43 @@ def predict():
 
         price_range_min = round(predict[0]) * 50
         price_range_max = round(predict[0]) * 50 + 50
-        string_interval = "{} - {} EURO".format(price_range_min, price_range_max)
-        return render_template("layout.html", zones=zones, price_interval=string_interval, specs=json_[0])
+        string_interval = "{} - {}".format(price_range_min, price_range_max)
+
+        value = None
+        if json_[0].get('price'):
+            if price_range_min > json_[0].get('price'):
+                value = 'subevaluat'
+            elif price_range_max < json_[0].get('price'):
+                value = 'supraevaluat'
+            else:
+                value = 'evaluat corect'
+        return render_template("layout.html", zones=zones, price_interval=string_interval,
+                               specs=translate_specs(json_[0]), value=value)
     else:
         return render_template("layout.html", zones=zones)
+
+
+def translate_specs(raw_json):
+    json = {
+        "Suprafata construita": raw_json.get('built_area', '-999'),
+        "Suprafata utila": raw_json.get('livable_area', '-999'),
+        "Nr. camere": raw_json.get('rooms', '-999'),
+        "Balcoane": raw_json.get('balconies', '-999'),
+        "Balcoane inchise": raw_json.get('balconies_closed', '-999'),
+        "Nr. bai": raw_json.get('bathrooms', '-999'),
+        "Comfort": raw_json.get('comfort', '-999'),
+        "Etaj": raw_json.get('floor', '-999'),
+        "Numar etaje": raw_json.get('floors', '-999'),
+        "Anul cladirii": raw_json.get('building_year', '-999'),
+        "Tip apartament": raw_json.get('layout', '-999'),
+        "Id zona": raw_json.get('zone_id', '-999'),
+        "Pret chirie": raw_json.get('price', '-999')
+    }
+
+
+
+    return {k: v for k, v in json.items() if v and '-999' not in str(v)}
+
 
 
 if __name__ == '__main__':

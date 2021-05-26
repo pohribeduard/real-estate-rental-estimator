@@ -32,26 +32,26 @@
 
 <!--SECOND TAB-->
 <div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="color: white;">&times;</a>
     <div class="cover-two">
-        <h1>Detalii Apartament:</h1>
+        <h1 style="margin-left: 7.5rem;">Detalii Apartament:</h1>
         <form action="/predict" method="post" class="form-flex" style="width:40%">
 
             <div class="form-group">
-                        <label>Numar de camere</label>
-                        <input type="number" name="rooms" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Numar de camere</label>
+                        <input type="number" name="rooms" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Suprafata construita</label>
-                        <input type="number" name="built_area" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Suprafata construita</label>
+                        <input type="number" name="built_area" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Suprafata utila</label>
-                        <input type="number" name="livable_area" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Suprafata utila</label>
+                        <input type="number" name="livable_area" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Structura</label>
-                        <select class="form-control" name="layout">
+                        <label class="label-leftsidenav">Structura</label>
+                        <select class="form-control" name="layout" style="border-color: #7b7676;">
                             <option label="Decomandat" value="1">Decomandat</option>
                             <option label="Semidecomandat" value="2">Semidecomandat</option>
                             <option label="Nedecomandat" value="4">Nedecomandat</option>
@@ -61,8 +61,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Comfort</label>
-                        <select class="form-control" name="comfort">
+                        <label class="label-leftsidenav">Comfort</label>
+                        <select class="form-control" name="comfort" style="border-color: #7b7676;">
                             <option label="1" value="1">1</option>
                             <option label="2" value="2">2</option>
                             <option label="3" value="3">3</option>
@@ -70,30 +70,30 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Etaj</label>
-                        <input type="number" name="floor" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Etaj</label>
+                        <input type="number" name="floor" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Numar total etaje</label>
-                        <input type="number" name="floors" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Numar total etaje</label>
+                        <input type="number" name="floors" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Numarul de balcoane</label>
-                        <input type="number" name="balconies" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Numarul de balcoane</label>
+                        <input type="number" name="balconies" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Numarul de balcoane inchise</label>
-                        <input type="number" name="balconies_closed" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Numarul de balcoane inchise</label>
+                        <input type="number" name="balconies_closed" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label>Numarul de bai</label>
-                        <input type="number" name="bathrooms" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Numarul de bai</label>
+                        <input type="number" name="bathrooms" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
 
                     {% if zones %}
                     <div class="form-group">
-                        <label>Zone</label>
-                        <select class="form-control" name="zone_id">
+                        <label class="label-leftsidenav">Zone</label>
+                        <select class="form-control" name="zone_id" style="border-color: #7b7676;">
                             {% for zone in zones %}
                             <option label="{{ zone.name }}" value="{{ zone.zone_id }}">{{ zone.name }}</option>
                             {% endfor %}
@@ -102,19 +102,19 @@
                     </div>
                     {% else %}
                     <div class="form-group">
-                        <label>Zone ID</label>
-                        <input type="number" name="zone_id" class="form-control">
+                        <label class="label-leftsidenav">Zone ID</label>
+                        <input type="number" name="zone_id" class="form-control" style="border-color: #7b7676;">
                     </div>
                     {% endif %}
                     <div class="form-group">
-                        <label>Anul de constructie al blocului</label>
-                        <input type="number" name="building_year" class="form-control" placeholder="0">
+                        <label class="label-leftsidenav">Anul de constructie al blocului</label>
+                        <input type="number" name="building_year" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
 
-            <input class="btn btn-danger" type="submit" value="Submit" style="float: right">
+            <input class="btn btn-danger btn-lg" type="submit" value="Trimitere" style="float: right">
         </form>
         <div class="row">
-            <input class="btn btn-info btn-lg mt-4" type="submit" value="Introducere URL" onclick="closeNav()">
+            <input class="btn btn-info btn-lg mt-4" type="submit" value="Introducere URL" onclick="closeNav()" style="background-color: #01283b; border-color: #01283b;">
         </div>
 
     </div>
@@ -139,31 +139,156 @@
         </div>
 
         <div class="row">
-            <input class="btn btn-info btn-lg mt-4" type="submit" value="Cautare manuala" onclick="openNav()">
+            <input class="btn btn-info btn-lg mt-4" type="submit" value="Cautare manuala" onclick="openNav()" style="background-color: #fb9c08; border-color: #fb9c08; border-radius: 0px;">
         </div>
+<!--        <div class="row">-->
+<!--            <input class="btn btn-info btn-lg mt-4" type="submit" value="Despre model" onclick="openRightNav()">-->
+<!--        </div>-->
+  </div>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+  <div class="container">
+      <div class="row">
+            <input class="btn btn-info btn-lg" type="submit" value="<" onclick="closeRightNav()" style="background-color: #72cfdd; border-color: #72cfdd;">
+      </div>
+
+      {% if specs %}
+
+      <div class="row">
+          <div class="col col-md-8">
+            <div class="row h2" style="color: #3b3c3f;">Prețul estimat pentru chirie este între: {{ price_interval }} €</div>
+              {% if specs['Pret chirie'] %}
+                <div class="row h3" style="color: #3b3c3f;">Pretul cerut: {{specs['Pret chirie']}} €</div>
+                <div class="row h3" style="color: #3b3c3f;">Apartamentul este {{value}} </div>
+              {% endif %}
+
+              <div class="row w-75 mt-5" id="table-predict-succes">
+                <table class="table table-hover table-bordered" style="background-color: #5e7f8b">
+                    <thead style="font-size: 19px;">
+                    <th scope="col" style="border-color: #385761; color: #eeece3;">
+                        Specificatie
+                    </th>
+                    <th scope="col" style="border-color: #385761; color: #eeece3;">
+                        Valoare
+    <!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="myCloseSucces()">-->
+    <!--                    <span aria-hidden="true">&times;</span>-->
+    <!--                    </button>-->
+                    </th>
+                    </thead>
+                    <tbody>
+                    {% for key, value in specs.items() %}
+                        <tr>
+                            <th scope="row" style="border-color: #385761; color: #eeece3;">{{key}}</th>
+                            {% if value != -999 %}
+                            <td style="border-color: #385761; color: #eeece3;">{{value}}</td>
+                            {% else %}
+                            <td>N/A</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="col col-md-4">
+              <img src="{{ url_for('static',filename='Result2.png') }}" alt="Result" width="400" height="400">
+              <img src="{{ url_for('static',filename='Result1.png') }}" alt="Result" width="400" height="400">
+          </div>
+      </div>
   </div>
 </div>
 
 <script>
-function openNav() {
-  document.getElementById("mySidenav").style.width = "100%";
-}
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "100%";
+    }
 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-}
+    function openRightNav() {
+      document.getElementById("myRightSidenav").style.width = "100%";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function closeRightNav() {
+      document.getElementById("myRightSidenav").style.width = "0";
+    }
 </script>
+
+<template id="my-template">
+  <swal-title>
+    Pretul estimat pentru chirie intre: {{ price_interval }}
+  </swal-title>
+  <swal-icon type="success" color="green"></swal-icon>
+  <swal-button type="confirm">
+    Ok
+  </swal-button>
+  <swal-button type="deny">
+    Vezi mai multe detalii
+  </swal-button>
+  <swal-param name="allowEscapeKey" value="false" />
+  <swal-param
+    name="customClass"
+    value='{ "popup": "my-popup" }' />
+</template>
 
 <script>
-        function myCloseSucces(){
-            document.getElementById('alert-predict').remove();
-            document.getElementById('table-predict-succes').remove();
-        }
+    function myCloseSucces(){
+        document.getElementById('alert-predict').remove();
+<!--        document.getElementById('table-predict-succes').remove();-->
+    }
 
-        function myCloseError(){
-            document.getElementById('alert-predict-error').remove();
+    function myCloseError(){
+        document.getElementById('alert-predict-error').remove();
+    }
+
+
+    function triggerSuccess(){
+           myCloseSucces()
+
+           Swal.fire({
+              template: '#my-template'
+            }).then((value) => {
+
+                    if(value.isConfirmed){
+                        console.log(value);
+                    }else{
+                        openRightNav();
+                    }
+
+            })
+
+    }
+
+    function triggerError(){
+           myCloseError();
+
+           Swal.fire({
+               title: 'Error!',
+               text: '{{ error_msg }}',
+               icon: 'error',
+               confirmButtonText: 'Ok'
+            })
+    }
+
+    window.onload = function exampleFunction() {
+        if(document.getElementById('alert-predict') != null){
+            triggerSuccess();
+        }else{
+            triggerError();
         }
+    }
+
+
 </script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </body>
 </html>

@@ -51,7 +51,7 @@ def crawl_item(url_to_crawl):
     elif 'homezz.ro' in get_url_base(url_to_crawl):
         d = runner.crawl(HomeZZ, url_to_crawl=url_to_crawl)
     else:
-        return {'error': 'Website-ul "{}" nu este suportat!'.format(get_url_base(url_to_crawl))}
+        return {'error': 'Website-ul {} nu este suportat!'.format(get_url_base(url_to_crawl))}
 
     total_sleep = 0
     while items == []:
