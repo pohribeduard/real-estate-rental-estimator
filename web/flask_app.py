@@ -98,19 +98,19 @@ def predict():
 
 def translate_specs(raw_json):
     json = {
-        "Suprafata construita": raw_json.get('built_area', '-999'),
-        "Suprafata utila": raw_json.get('livable_area', '-999'),
+        "Suprafața construită(mp2)": raw_json.get('built_area', '-999'),
+        "Suprafața utilă(mp2)": raw_json.get('livable_area', '-999'),
         "Nr. camere": raw_json.get('rooms', '-999'),
         "Balcoane": raw_json.get('balconies', '-999'),
-        "Balcoane inchise": raw_json.get('balconies_closed', '-999'),
-        "Nr. bai": raw_json.get('bathrooms', '-999'),
+        "Balcoane închise": raw_json.get('balconies_closed', '-999'),
+        "Nr. băi": raw_json.get('bathrooms', '-999'),
         "Comfort": raw_json.get('comfort', '-999'),
         "Etaj": raw_json.get('floor', '-999'),
-        "Numar etaje": raw_json.get('floors', '-999'),
-        "Anul cladirii": raw_json.get('building_year', '-999'),
+        "Număr etaje": raw_json.get('floors', '-999'),
+        "Anul clădirii": raw_json.get('building_year', '-999'),
         "Tip apartament": raw_json.get('layout', '-999'),
         "Id zona": raw_json.get('zone_id', '-999'),
-        "Pret chirie": raw_json.get('price', '-999')
+        "Preț chirie": raw_json.get('price', '-999')
     }
 
 

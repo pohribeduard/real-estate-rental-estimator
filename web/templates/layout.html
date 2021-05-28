@@ -38,19 +38,19 @@
         <form action="/predict" method="post" class="form-flex" style="width:40%">
 
             <div class="form-group">
-                        <label class="label-leftsidenav">Numar de camere</label>
+                        <label class="label-leftsidenav">Număr de camere</label>
                         <input type="number" name="rooms" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Suprafata construita</label>
+                        <label class="label-leftsidenav">Suprafața construită (mp2)</label>
                         <input type="number" name="built_area" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Suprafata utila</label>
+                        <label class="label-leftsidenav">Suprafața utilă (mmp2)</label>
                         <input type="number" name="livable_area" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Structura</label>
+                        <label class="label-leftsidenav">Structură</label>
                         <select class="form-control" name="layout" style="border-color: #7b7676;">
                             <option label="Decomandat" value="1">Decomandat</option>
                             <option label="Semidecomandat" value="2">Semidecomandat</option>
@@ -74,19 +74,19 @@
                         <input type="number" name="floor" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Numar total etaje</label>
+                        <label class="label-leftsidenav">Număr total etaje</label>
                         <input type="number" name="floors" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Numarul de balcoane</label>
+                        <label class="label-leftsidenav">Numărul de balcoane</label>
                         <input type="number" name="balconies" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Numarul de balcoane inchise</label>
+                        <label class="label-leftsidenav">Numărul de balcoane închise</label>
                         <input type="number" name="balconies_closed" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
                     <div class="form-group">
-                        <label class="label-leftsidenav">Numarul de bai</label>
+                        <label class="label-leftsidenav">Numărul de bai</label>
                         <input type="number" name="bathrooms" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
 
@@ -107,7 +107,7 @@
                     </div>
                     {% endif %}
                     <div class="form-group">
-                        <label class="label-leftsidenav">Anul de constructie al blocului</label>
+                        <label class="label-leftsidenav">Anul de construcție al blocului</label>
                         <input type="number" name="building_year" class="form-control" placeholder="0" style="border-color: #7b7676;">
                     </div>
 
@@ -125,13 +125,13 @@
 <div class="container">
 
     <div class="cover">
-    <h1>Pagina predictie</h1>
+    <h1>Pagină predicție</h1>
     <form action="/predict" method="post" class="flex-form">
       <label style="display: none">
         <i class="ion-location"></i>
       </label>
       <input type="search" name="url_to_crawl" placeholder="https://www.imobiliare.ro/inchirieri-garsoniere/bucuresti/doamna-ghica/garsoniera-de-inchiriat-XV04000N9">
-      <input type="submit" value="Cauta">
+      <input type="submit" value="Caută">
 
     </form>
         <div style="float: right; color: white; margin-left: 250px;">
@@ -139,7 +139,7 @@
         </div>
 
         <div class="row">
-            <input class="btn btn-info btn-lg mt-4" type="submit" value="Cautare manuala" onclick="openNav()" style="background-color: #fb9c08; border-color: #fb9c08; border-radius: 0px;">
+            <input class="btn btn-info btn-lg mt-4" type="submit" value="Căutare manuală" onclick="openNav()" style="background-color: #fb9c08; border-color: #fb9c08; border-radius: 0px;">
         </div>
 <!--        <div class="row">-->
 <!--            <input class="btn btn-info btn-lg mt-4" type="submit" value="Despre model" onclick="openRightNav()">-->
@@ -158,8 +158,8 @@
       <div class="row">
           <div class="col col-md-8">
             <div class="row h2" style="color: #3b3c3f;">Prețul estimat pentru chirie este între: {{ price_interval }} €</div>
-              {% if specs['Pret chirie'] %}
-                <div class="row h3" style="color: #3b3c3f;">Pretul cerut: {{specs['Pret chirie']}} €</div>
+              {% if specs['Preț chirie'] %}
+                <div class="row h3" style="color: #3b3c3f;">Prețul cerut: {{specs['Preț chirie']}} €</div>
                 <div class="row h3" style="color: #3b3c3f;">Apartamentul este {{value}} </div>
               {% endif %}
 
@@ -222,7 +222,7 @@
 
 <template id="my-template">
   <swal-title>
-    Pretul estimat pentru chirie intre: {{ price_interval }}
+    Prețul estimat pentru chirie între: {{ price_interval }} EURO
   </swal-title>
   <swal-icon type="success" color="green"></swal-icon>
   <swal-button type="confirm">

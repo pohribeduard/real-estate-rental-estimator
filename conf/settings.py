@@ -1,4 +1,6 @@
-DATABASE_CONNECTION_STRING = 'mysql://root:1234@localhost:3306/realestates'
+# DATABASE_CONNECTION_STRING = 'mysql://root:1234@localhost:3306/realestates'
+DATABASE_CONNECTION_STRING = 'mysql://root:Password1@real-estate-2.cmtosoeheu6t.us-east-2.rds.amazonaws.com:3306/realestates'
+
 
 MAX_PRICE = 1500
 MIN_PRICE = 75
