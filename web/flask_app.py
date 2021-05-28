@@ -12,6 +12,11 @@ from web.crawl_item import crawl_item
 app = Flask(__name__)
 app.debug = True
 
+lr = joblib.load('./web/randomfs.pkl')
+print ('Model loaded')
+rnd_columns = joblib.load('./web/rnd_columns.pkl')
+
+print ('Model columns loaded')
 
 @app.route('/')
 def home():
@@ -119,16 +124,16 @@ def translate_specs(raw_json):
 
 
 
-if __name__ == '__main__':
-    port = FLASK_PORT
-
-    lr = joblib.load('randomfs.pkl')
-    print ('Model loaded')
-    rnd_columns = joblib.load('rnd_columns.pkl')
-
-    print ('Model columns loaded')
-
-    app.run(port=port)
+# if __name__ == '__main__':
+#     port = FLASK_PORT
+#
+#     lr = joblib.load('randomfs.pkl')
+#     print ('Model loaded')
+#     rnd_columns = joblib.load('rnd_columns.pkl')
+#
+#     print ('Model columns loaded')
+#
+#     app.run(port=port)
 
 
 """
