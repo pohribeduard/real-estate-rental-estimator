@@ -1,4 +1,4 @@
-#Real Estate Rental Estimatior
+# Real Estate Rental Estimatior
 
 
 The Project aims to train a machine learning model that uses the
