@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import joblib
 import numpy as np
 import math
 from src.models.residences import Residences
@@ -7,7 +7,8 @@ import pandas as pd
 
 from src.visualization.feature_importance import print_feature_importance
 
-residences_nr = 120000
+residences_nr = 12000
+save = False
 
 list_features_to_drop = ['price', 'currency', 'price_interval']
 
@@ -40,10 +41,10 @@ from sklearn.ensemble import RandomForestRegressor
 
 rf = RandomForestRegressor(n_estimators=1400,
                            min_samples_split=2,
-                           min_samples_leaf=2,
+                           min_samples_leaf=1,
                            max_features='auto',
                            random_state=42,
-                           max_depth=70,
+                           max_depth=100,
                            criterion='mse',
                            bootstrap=True,
                            verbose=1,
@@ -82,18 +83,15 @@ print('\nTotal accurate price intervals: {}/{}'.format(total_accurate, len(predi
 print_feature_importance(rf, feature_list)
 
 # Serialize the model and save
-#
-#
-import joblib
+if save is True:
+    now = datetime.now().strftime('%m-%d-%Y_%H_%M_%S')
+    err = str(round(np.mean(errors), 2)).replace('.', '-')
 
-# now = datetime.now().strftime('%m-%d-%Y_%H_%M_%S')
-# err = str(round(np.mean(errors), 2)).replace('.', '-')
-#
-# joblib.dump(rf, '../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
-# print("Random Forest Model Saved")
-# #Load the model
-# lr = joblib.load('../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
-# # Save features from training
-# rnd_columns = list(features_columns)
-# joblib.dump(rnd_columns, '../saved_models/rnd_columns_{}_{}_{}.pkl'.format(total_accurate, err, now))
-# print("Random Forest Model Colums Saved")
+    joblib.dump(rf, '../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
+    print("Random Forest Model Saved")
+    #Load the model
+    lr = joblib.load('../saved_models/randomfs_{}_{}_{}.pkl'.format(total_accurate, err, now))
+    # Save features from training
+    rnd_columns = list(features_columns)
+    joblib.dump(rnd_columns, '../saved_models/rnd_columns_{}_{}_{}.pkl'.format(total_accurate, err, now))
+    print("Random Forest Model Colums Saved")

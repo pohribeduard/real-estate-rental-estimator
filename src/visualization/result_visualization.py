@@ -7,7 +7,7 @@ import pandas as pd
 from src.models.residences import Residences
 
 
-def result_visualization(nr_res=10000):
+def result_visualization(nr_res=180000):
     residence_table = Residences()
     residences = residence_table.get_residences(nr_res)
 
@@ -39,16 +39,17 @@ def result_visualization(nr_res=10000):
 
     X_grid = np.arange(min(X), max(X), 0.01)
     X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.style.use('ggplot')
     plt.scatter(X_test, y_test, color='red')
     plt.scatter(X_test, y_pred, color='green')
-    plt.legend({'predicted': 'red', 'actual': 'blue'})
+    plt.legend({'Prețul propriu-zis': 'red', 'Prețul prezis': 'green'})
     plt.title('Random Forest Regression')
-    plt.xlabel('Livable Area')
-    plt.ylabel('Price')
+    plt.xlabel('Suprafața locuibilă')
+    plt.ylabel('Preț')
     plt.show()
 
     plt.plot(X_grid, rf.predict(X_grid), color='black')
     plt.title('Random Forest Regression')
-    plt.xlabel('Livable Area')
-    plt.ylabel('Price')
+    plt.xlabel('Suprafața locuibilă')
+    plt.ylabel('Preț')
     plt.show()

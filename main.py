@@ -1,13 +1,13 @@
 from src.visualization.data_visualization import plot_surface_and_rental_price, plot_surface_vs_price_per_sq_meter, \
-    plot_rooms_vs_price
+    plot_rooms_vs_price, normal_distribution
 from src.visualization.result_visualization import result_visualization
-from web.crawl_item import crawl_item
 
+
+# Usefull for plotting infomation about the model
 if __name__ == '__main__':
     plot_surface_and_rental_price()
     plot_surface_vs_price_per_sq_meter()
     plot_rooms_vs_price()
+    normal_distribution()
 
-    # crawl_item('https://www.imobiliare.ro/inchirieri-garsoniere/bucuresti/doamna-ghica/garsoniera-de-inchiriat-XV04000N9')
-
-    # result_visualization()
+    result_visualization()
